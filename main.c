@@ -1,15 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-struct my_proc {
-    int id;
-    unsigned int start;
-    unsigned int end;
-    int turnaround;
-    int wait;
-};
-
-typedef struct my_proc* Process;
+#include "declarations.h"
 
 int main(int argc, char** argv) {
 
@@ -21,11 +10,6 @@ int main(int argc, char** argv) {
 
     // Initialize pointers to structs for each scheduler.
     // Contain all the heuristics for each.
-    Process fcfs_single;
-    Process fcfs_percore;
-    Process rr_percore;
-    Process rr_load;
-
     fcfs_single = (Process)malloc(sizeof(Process));
     fcfs_percore = (Process)malloc(sizeof(Process));
     rr_percore = (Process)malloc(sizeof(Process));
