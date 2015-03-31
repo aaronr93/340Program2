@@ -1,12 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-typedef struct {
+struct my_proc {
     int id;
     unsigned int start;
     unsigned int end;
     int turnaround;
     int wait;
-} Process;
+};
+
+typedef struct my_proc* Process;
 
 int main(int argc, char** argv) {
 
@@ -18,28 +21,31 @@ int main(int argc, char** argv) {
 
     // Initialize pointers to structs for each scheduler.
     // Contain all the heuristics for each.
-    Process* fcfs_single, fcfs_percore, rr_percore, rr_load;
+    Process fcfs_single;
+    Process fcfs_percore;
+    Process rr_percore;
+    Process rr_load;
 
-    fcfs_single = (Process)malloc(sizeof(struct* Process));
-    fcfs_percore = (Process)malloc(sizeof(struct* Process));
-    rr_percore = (Process)malloc(sizeof(struct* Process));
-    rr_load = (Process)malloc(sizeof(struct* Process));
+    fcfs_single = (Process)malloc(sizeof(Process));
+    fcfs_percore = (Process)malloc(sizeof(Process));
+    rr_percore = (Process)malloc(sizeof(Process));
+    rr_load = (Process)malloc(sizeof(Process));
 
     do {
 
         // Display scheduler list to user
         printf("===========================\n");
         printf("Please choose a scheduler:\n");
-        printf("1. FCFS (single core)\n");
-        printf("2. FCFS (per core)\n");
-        printf("3. Round Robin (per core)\n");
-        printf("4. Round Robin (load)\n");
-        printf("0. Quit\n");
+        printf("(1) FCFS (single core)\n");
+        printf("(2) FCFS (per core)\n");
+        printf("(3) Round Robin (per core)\n");
+        printf("(4) Round Robin (load)\n");
+        printf("(0) Quit\n");
         printf("===========================\n");
 
         // Receive user's choice
         int input;
-        scanf("%d", input);
+        scanf("%d", &input);
 
         // Conditional structure based on user's input:
         if (!input) {
@@ -61,7 +67,7 @@ int main(int argc, char** argv) {
             printf("Invalid choice.\n");
         }
 
-    } while (true);
+    } while (1);
 
     return 0;
 }
