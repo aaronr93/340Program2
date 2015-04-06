@@ -1,4 +1,5 @@
 #include "declarations.h"
+#include "_fcfs_single.c"
 
 int main(int argc, char** argv) {
 
@@ -37,7 +38,7 @@ int main(int argc, char** argv) {
             return 0;
         } else if (input == 1) {
             // fcfs_single
-            // Call apropros function
+            fcfs_single();
         } else if (input == 2) {
             // fcfs_percore
             // Call apropros function
