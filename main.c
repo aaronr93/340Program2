@@ -1,5 +1,5 @@
 #include "declarations.h"
-#include "_fcfs_single.c"
+
 
 int main(int argc, char** argv) {
 
@@ -11,10 +11,10 @@ int main(int argc, char** argv) {
 
     // Initialize pointers to structs for each scheduler.
     // Contain all the heuristics for each.
-    fcfs_single = (Process)malloc(sizeof(Process));
+    /*fcfs_single = (Process)malloc(sizeof(Process));
     fcfs_percore = (Process)malloc(sizeof(Process));
     rr_percore = (Process)malloc(sizeof(Process));
-    rr_load = (Process)malloc(sizeof(Process));
+    rr_load = (Process)malloc(sizeof(Process));*/
 
     do {
 
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
             return 0;
         } else if (input == 1) {
             // fcfs_single
-            fcfs_single();
+            //fcfs_single();
         } else if (input == 2) {
             // fcfs_percore
             // Call apropros function

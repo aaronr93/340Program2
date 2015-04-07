@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#ifndef _DECLARATIONSH_
+#define _DECLARATIONSH_
 
-struct my_proc {
+typedef struct Process {
     int id;
     unsigned int start;
     unsigned int end;
@@ -10,14 +12,15 @@ struct my_proc {
     int wait_time;
 };
 
-typedef struct my_proc* Process;
 
-Process fcfs_single;
-Process fcfs_percore;
-Process rr_percore;
-Process rr_load;
+//Process * fcfs_single;
+//Process * fcfs_percore;
+//Process * rr_percore;
+//Process * rr_load;
+//
+//void fnc_fcfs_single(Process *);
+//void fnc_fcfs_percore(Process *);
+//void fnc_rr_percore(Process *);
+//void fnc_rr_load(Process *);
 
-void fnc_fcfs_single(Process);
-void fnc_fcfs_percore(Process);
-void fnc_rr_percore(Process);
-void fnc_rr_load(Process);
+#endif

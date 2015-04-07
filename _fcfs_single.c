@@ -1,5 +1,9 @@
 #include "declarations.h"
 
+#ifndef _FCFS_SINGLE_
+#define _FCFS_SINGLE_
+
+
 
 typedef struct fcfs_single_process{//to store all the info about the processes
 	int id; //id of process
@@ -63,3 +67,5 @@ void fcfs_single(){
 			printf("%d\t%d\t%d\t%d\t%d\n", processes[i].id, processes[i].start, processes[i].finish, 0, 0); //output the process info
 		}
 }
+
+#endif
