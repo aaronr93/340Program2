@@ -64,7 +64,7 @@ void fcfs_single(){
 		//this way it's outputting by the order the processes are given
 		for(i = 0; i < num_processes; i++)
 		{
-			printf("%d\t%d\t%d\t%d\t%d\n", processes[i].id, processes[i].start, processes[i].finish, 0, 0); //output the process info
+			printf("%d\t%d\t%d\t%d\t%d\n", processes[i].id, processes[i].start, processes[i].finish, processes[i].finish - processes[i].arrive, processes[i].start - processes[i].arrive); //output the process info
 		}
 }
 
