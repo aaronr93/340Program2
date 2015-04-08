@@ -4,13 +4,16 @@
 #ifndef _DECLARATIONSH_
 #define _DECLARATIONSH_
 
-typedef struct Process {
-    int id;
-    unsigned int start;
-    unsigned int end;
+typedef struct {
+    int id; //id of process
+    int arrive; //arival time of process
+    int duration; //duration of process
+    int start; //the time it actually starts
+    int finish; //finish time of process
     int turnaround;
     int wait_time;
-};
+    bool done; //is the process done executing?
+} Process;
 
 
 //Process * fcfs_single;
