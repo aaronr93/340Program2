@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
             // Call apropros function
         } else if (input == 4) {
             // rr_load
-            // Call apropros function
+            rr_load();
         } else {
             printf("Invalid choice.\n");
         }

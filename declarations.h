@@ -13,6 +13,7 @@ typedef struct {
     int turnaround;
     int wait_time;
     bool done; //is the process done executing?
+	bool running; //is the process currently running?
 } Process;
 
 int numCores; //user wil input the number of cores
