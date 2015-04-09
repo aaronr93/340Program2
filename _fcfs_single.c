@@ -7,6 +7,7 @@ Process fcfs_single_p;
 
 void fcfs_single(){
 	Process fcfs_single_p[500];
+	Process * fcfs_single_cores[20];
 	// ask user how many processes
     printf("How many processes: ");
 
@@ -16,6 +17,7 @@ void fcfs_single(){
 
 
 	int i;
+	//adding to the global queue
 	for(i = 0; i < num_processes; i++){//ask user for info manually for now, will need to do file input at some point
 		printf("Process %d id: ", i);
 		scanf("%d", &id);
@@ -27,7 +29,12 @@ void fcfs_single(){
 		scanf("%d", &duration);
 		fcfs_single_p[i].duration = duration;
 		fcfs_single_p[i].done = false;
+		fcfs_single_p[i].start = -1;
 
+	}
+
+	for(i = 0; i < numCores; i++){
+		fcfs_single_cores[i] = &fcfs_single_p[i];
 	}
 
 	//after the info has been input, run the scheduler
@@ -36,25 +43,36 @@ void fcfs_single(){
 	bool did_something; // if no process has arrived and not executed before the current time, it needs to advance the clock
 
 	do {
+
 		still_running = false;
 		did_something = false;
-		for(i = 0; i < num_processes; i++)
+		for(i = 0; i < numCores; i++)
 		{
-			if(fcfs_single_p[i].done == false){//only need to do anything if the process still hasn't executed
-				still_running = true;
-				printf("process %d\n", i);
-				if(fcfs_single_p[i].arrive <= current_time)//execute the process if it's arrival time is before or at the current time
-				{
-					did_something = true;
-					fcfs_single_p[i].start = current_time;
-					current_time = current_time + fcfs_single_p[i].duration;
-					fcfs_single_p[i].done = true;
-					fcfs_single_p[i].finish = current_time;
-					printf("duration:%d\n",fcfs_single_p[i].duration);
+			if(fcfs_single_cores[i]->done == true){
+				int j;
+				for(j = 0; j < num_processes; j++){
+					if(fcfs_single_p[j].done == false){
+						fcfs_single_cores[i] = &fcfs_single_p[j];
+						still_running = true;
+					}
 				}
 			}
+			if(fcfs_single_cores[i]->done == false){//only need to do anything if the process still hasn't executed
+				still_running = true;
+				if(fcfs_single_cores[i]->arrive <= current_time)//execute the process if it's arrival time is before or at the current time
+				{
+					did_something = true;
+					if(fcfs_single_cores[i]->start == -1) fcfs_single_cores[i]->start = current_time;
+					fcfs_single_cores[i]->duration -= 1;
+					if(fcfs_single_cores[i]->duration <= 0){
+						fcfs_single_cores[i]->done = true;
+						fcfs_single_cores[i]->finish = current_time + 1;
+					}
+				}
+			} 
+			
 		}
-		if(!did_something) current_time++;
+		current_time++;
 	} while(still_running);
 
 	//this way it's outputting by the order the processes are given
