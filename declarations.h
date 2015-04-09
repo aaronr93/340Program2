@@ -15,6 +15,8 @@ typedef struct {
     bool done; //is the process done executing?
 } Process;
 
+int numCores; //user wil input the number of cores
+
 
 //Process * fcfs_single;
 //Process * fcfs_percore;

@@ -17,6 +17,8 @@ int main(int argc, char** argv) {
     rr_load = (Process)malloc(sizeof(Process));*/
 
     do {
+		printf("How many cores: ");
+		scanf("%d", &numCores);
 
         // Display scheduler list to user
         printf("===========================\n");
@@ -38,7 +40,7 @@ int main(int argc, char** argv) {
             return 0;
         } else if (input == 1) {
             // fcfs_single
-            //fcfs_single();
+            fcfs_single();
         } else if (input == 2) {
             // fcfs_percore
             // Call apropros function
