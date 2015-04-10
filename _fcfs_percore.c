@@ -84,12 +84,14 @@ void fcfs_percore() {
 		coll[i]->wait_time = coll[i]->start - coll[i]->arrive;
 		avg_turnaround = avg_turnaround + coll[i]->turnaround;
 		avg_wait = avg_wait + coll[i]->wait_time;
-		fprintf(ofp, "%d\t%d\t%d\t%d\t%d\n", coll[i]->id, coll[i]->start, coll[i]->finish, coll[i]->turnaround, coll[i]->wait_time);
+		fprintf(ofp, "\n%d\t%d\t%d\t%d\t%d\n", coll[i]->id, coll[i]->start, coll[i]->finish, coll[i]->turnaround, coll[i]->wait_time);
 	}
 
 	avg_turnaround = avg_turnaround / num_processes;
 	avg_wait = avg_wait / num_processes;
-	fprintf(ofp, "%f\t%f\n", avg_turnaround, avg_wait);
+	fprintf(ofp, "\n%f\t%f\n", avg_turnaround, avg_wait);
+
+	fclose(ofp);
 }
 
 #endif
