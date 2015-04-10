@@ -2,36 +2,36 @@
 #ifndef _FCFS_PERCORE_
 #define _FCFS_PERCORE_
 
+Core* core_constructor() {
+	Core* core = malloc(sizeof(Core));
+	core->core_num_proc = 0;
+	core->current_process_id = 0;
+	return core;
+}
+
+void core_destructor(Core* core) {
+	free(core->process);
+}
+
 void fcfs_percore() {
 	srandom((unsigned)time(NULL));
 	int i;
-	//Process fcfs_percore_p[100];
-	Process* cores[20][50];
-	for (i = 0; i < 20; i++) {
-		int j;
-		for (j = 0; j < 50; j++) {
-			cores[i][j] = NULL;
-		}
-	}
 
-	//adding to a global list of processes
 	for (i = 0; i < num_processes; i++) {
 		coll[i]->done = false;
 		coll[i]->start = -1;
 		coll[i]->running = false;
 	}
 
-	for (i = 0; i < num_processes; i++) {
-		int rand_core = rand() % numCores;
+	for (i = 0; i < numCores; i++) {
+		cores[i] = core_constructor();
+	}
 
-		//now add the process to the end of the random processor
-		int k = 0;
-		while (true) {
-			if (cores[rand_core][k] == NULL) break;
-			else k++;
-		}
-		cores[rand_core][k] = coll[i];
-		printf("k = %d. Added process %d to core %d\n", k, cores[rand_core][k]->id, rand_core);
+	int rand_core;
+	for (i = 0; i < num_processes; i++) {
+		rand_core = rand() % numCores;
+		cores[rand_core]->process[cores[rand_core]->core_num_proc] = coll[i];
+		cores[rand_core]->core_num_proc++;
 	}
 
 	// Sim time.
@@ -40,64 +40,56 @@ void fcfs_percore() {
 
 	bool still_running = true;
 
-	int t[20];
-	// Init to 0
-	for (i = 0; i < 20; i++) {
-		t[i] = 0;
-	}
-
-	while (still_running)
-	{
+	while (still_running) {
 		still_running = false;
+		for (i = 0; i < numCores; i++) {
 
-		for (i = 0; i < numCores; i++)
-		{
+			for (k = 0; k < cores[i]->core_num_proc; k++) {
+				if (!cores[i]->process[k]->done) still_running = true;
+			}
 
-			int temp = t[i];
-			int time_left = cores[i][t[i]]->duration;		// Burst time countdown initiates.
-
-			while (true)
-			{
-
-				if (cores[i][t[i]] != NULL && !cores[i][t[i]]->done && cores[i][t[i]]->arrive <= current_time)//if there is a process at the current ticker (t) position
-				{
-
-					// Set as Ready to Start Processing
-					if (cores[i][t[i]]->start == -1) {
-						cores[i][t[i]]->start = current_time;
-					}
-
-					still_running = true;
-
-					for (k = 0; k < time_left; k++) {
-						// EXECUTION
-						time_left--;		// Decrement time by 1 unit
-						printf("\tProcess %d executing: time left = %d\n", cores[i][t[i]]->id, time_left);
-						// If it's all done:
-						if (time_left <= 0) {
-							cores[i][t[i]]->done = true;
-							cores[i][t[i]]->finish = cores[i][t[i]]->start + cores[i][t[i]]->duration;
-							printf("Finished executing process %d\n", cores[i][t[i]]->id);
-							break;
-						}
-					}
+			if (cores[i]->current_process_id >= cores[i]->core_num_proc) {
+				;
+			} else if (cores[i]->process[cores[i]->current_process_id]->arrive <= current_time) {
+				if (cores[i]->process[cores[i]->current_process_id]->start == -1) {
+					cores[i]->process[cores[i]->current_process_id]->start = current_time;
 
 				}
-				t[i]++;
-				if (cores[i][t[i]] == NULL) {
-					t[i] = 0;//reset the ticker if it's gone through each process
-				}
-				//if you come around to temp again there's nothing left on this core
-				if (t[i] == temp) {
-					break;
+
+				cores[i]->process[cores[i]->current_process_id]->duration--;
+
+				if (cores[i]->process[cores[i]->current_process_id]->duration <= 0) {
+					cores[i]->process[cores[i]->current_process_id]->done = true;
+					cores[i]->process[cores[i]->current_process_id]->finish = current_time + 1;
+					cores[i]->current_process_id++;
 				}
 
-				if (time_left <= 0) break;
 			}
 
 		}
-		break;
+		current_time++;
+
 	}
+
+	float avg_turnaround;
+	float avg_wait;
+	avg_turnaround = 0;
+	avg_wait = 0;
+
+	FILE * ofp = fopen("out.txt", "w");
+
+	//this way it's outputting by the order the processes are given
+	for (i = 0; i < num_processes; i++) {
+		coll[i]->turnaround = coll[i]->finish - coll[i]->arrive;
+		coll[i]->wait_time = coll[i]->start - coll[i]->arrive;
+		avg_turnaround = avg_turnaround + coll[i]->turnaround;
+		avg_wait = avg_wait + coll[i]->wait_time;
+		fprintf(ofp, "%d\t%d\t%d\t%d\t%d\n", coll[i]->id, coll[i]->start, coll[i]->finish, coll[i]->turnaround, coll[i]->wait_time);
+	}
+
+	avg_turnaround = avg_turnaround / num_processes;
+	avg_wait = avg_wait / num_processes;
+	fprintf(ofp, "%f\t%f\n", avg_turnaround, avg_wait);
 }
 
 #endif

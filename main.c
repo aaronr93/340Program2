@@ -99,5 +99,7 @@ int main(int argc, char** argv) {
 	else if (strcmp(pol, "rr-load") == 0)      rr_load();
 	else printf("Invalid entry.\n");
 
+	printf("It's gone!\n");
+
     return 0;
 }

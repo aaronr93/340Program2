@@ -30,11 +30,18 @@ struct Process_Config {
     bool running;   // Is the process currently running?
 };
 
-
-
 typedef struct Process_Config Process;
 
+struct Core_Config {
+    Process* process[50];
+    int core_num_proc;
+    int current_process_id;
+};
+
+typedef struct Core_Config Core;
+
 Process* coll[100];
+Core* cores[32];
 
 int numCores;
 int quantum;
