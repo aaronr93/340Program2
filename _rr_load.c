@@ -3,7 +3,10 @@
 #define _RR_LOAD_
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 41debb5... Ugh
 void rr_load(){
 	int i;
 	Process rr_load_p[500];
@@ -115,16 +118,27 @@ void rr_load(){
 					for(k = 0; k < tempq; k++){
 						rr_load_cores[i][ticker[i]]->duration -= 1;
 						tempq -=1;
+<<<<<<< HEAD
 						if(tempq <= 0) break;
+=======
+						printf(" process %d tick. tempq = %d remaining duration of process is %d\n.", rr_load_cores[i][ticker[i]]->id, tempq, rr_load_cores[i][ticker[i]]->duration);
+						if(tempq <= 0) k=tempq;
+>>>>>>> parent of 41debb5... Ugh
 					}
 					if(rr_load_cores[i][ticker[i]]->duration <= 0){
 						rr_load_cores[i][ticker[i]]->done = true;
 						rr_load_cores[i][ticker[i]]->finish = current_time + (quantum_rr_load - tempq);
 						printf("Finished executing process %d\n", rr_load_cores[i][ticker[i]]->id);
+<<<<<<< HEAD
 
 					}
 				}
 				if(tempq <= 0) break;
+=======
+					}
+				}
+				
+>>>>>>> parent of 41debb5... Ugh
 				ticker[i]++;
 				printf("ticker %d is now at %d\n", i, ticker[i]);
 				if(rr_load_cores[i][ticker[i]] == NULL){
@@ -137,6 +151,11 @@ void rr_load(){
 					printf("Core %d is done\n", i);
 					break;
 				}
+<<<<<<< HEAD
+=======
+
+				if(tempq <= 0) break;
+>>>>>>> parent of 41debb5... Ugh
 			}
 			
 		}
@@ -163,5 +182,8 @@ void rr_load(){
 
 }
 
+<<<<<<< HEAD
 >>>>>>> parent of ab9bebd... rr_percore. and rr_load fix
+=======
+>>>>>>> parent of 41debb5... Ugh
 #endif
