@@ -18,7 +18,6 @@ struct Process_Config {
     int turnaround;
     int wait_time;
     bool done;      // Is the process done executing?
-    bool running;   // Is the process currently running?
 };
 
 typedef struct Process_Config Process;
@@ -61,5 +60,7 @@ void process_output(Process* p, int num_processes) {
 	}
     printf("\nAVG TURNAROUND = %d\t\tAVG WAIT = \n\n", sum_t / num_processes, sum_w / num_processes);
 }
+
+Process* coll[500];
 
 #endif
