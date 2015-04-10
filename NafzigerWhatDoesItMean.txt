@@ -1,0 +1,6 @@
+What Does It Mean?
+Zachary Nafziger
+
+To be honest, I didn't learn much about the algorithms that I didn't already know. In fact, one of the biggest things that I learned through this assignment is that scheduling gets quite a bit trickier with multiple cores rather than just one. The round robin schedulers were particularly difficult to conceptualize. It wouldn't be nearly as complicated with just one core, but with multiple cores it is necessary to track which process is running on each core, and make sure every core is running at the same rate for each pass. Similar tracking was necessary for the fcfs schedulers, but a quantum wasn't necessary so it was slightly simpler. As for the input files we used to test, we started off with just one core to make sure everything was working. We tested a variety of cases, starting simpler(i.e. one or two processes) and getting more complicated (larger quantums and more processes). We then performed a similiar procedure with two cores, and so on.
+As would be expected, round robin seemed to be the most efficient. The splitting up of tasks meant that larger tasks had a much better turnaround time and shorter wait time than fcfs.
+As stated above, I didn't learn much new through this program, although it did help solidify my previous knowledge of the scheduling algorithms.

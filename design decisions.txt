@@ -1,0 +1,7 @@
+Design Decisions
+
+There were several significant design decisions we made:
+
+1. Threading: We decided not to use threads for our implementation. We decided it would be easier to simulate multiple threads, although that may not have actually been the case looking back. Regardless, it helped significantly in learning how the algorithms would function on multiple cores to simulate it without threads, since we had to simulate the cores ourselves.
+
+2. File organization: Rather than defining everything in one document, which would work, we split up the different scheduler functions into different files. It made it much easier to simultaneously work on coding, as well as much easier to debug.
