@@ -82,16 +82,14 @@ void fcfs_percore() {
 					for (k = 0; k < time_left; k++) {
 						time_left -= 1;
 						printf("\tProcess %d is executing. Duration = %d remaining duration of process is %d\n.", fcfs_percore_cores[i][ticker[i]]->id, fcfs_percore_cores[i][ticker[id]]->duration, time_left);
-						if (time_left <= 0) k = time_left;
-						current_time++;
+						if (time_left <= 0) break;
 					}
 					if (time_left <= 0) {
 						fcfs_percore_cores[i][ticker[i]]->done = true;
-						fcfs_percore_cores[i][ticker[i]]->finish = current_time;
+						fcfs_percore_cores[i][ticker[i]]->finish = fcfs_percore_cores[i][ticker[i]]->start + fcfs_percore_cores[i][ticker[i]]->duration;
 						printf("Finished executing process %d\n", fcfs_percore_cores[i][ticker[i]]->id);
 					}
 				}
-
 				ticker[i]++;
 				printf("ticker %d is now at %d\n", i, ticker[i]);
 				if (fcfs_percore_cores[i][ticker[i]] == NULL) {
