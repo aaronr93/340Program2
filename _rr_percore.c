@@ -18,6 +18,7 @@ void rr_percore() {
 	int i;
 	Process rr_percore_p[500];
 	Process * rr_percore_cores[20][50]; //up to 20 cores with up to 50 processes each
+	int bursts[500];
 
 	//make the entire array null
 	for (i = 0; i < 20; i++) {
@@ -56,6 +57,7 @@ void rr_percore() {
 		rr_percore_p[i].done = false;
 		rr_percore_p[i].start = -1;
 		rr_percore_p[i].running = false;
+		bursts[i] = coll[i]->duration;
 
 	}
 
@@ -145,7 +147,7 @@ void rr_percore() {
 	//this way it's outputting by the order the processes are given
 	for (i = 0; i < num_processes; i++) {
 		rr_percore_p[i].turnaround = rr_percore_p[i].finish - rr_percore_p[i].arrive;
-		rr_percore_p[i].wait_time = rr_percore_p[i].start - rr_percore_p[i].arrive;
+		rr_percore_p[i].wait_time = rr_percore_p[i].finish - rr_percore_p[i].arrive - bursts[i];
 		avg_turnaround = avg_turnaround + rr_percore_p[i].turnaround;
 		avg_wait = avg_wait + rr_percore_p[i].wait_time;
 		printf("%d\t%d\t%d\t%d\t%d\n", rr_percore_p[i].id, rr_percore_p[i].start, rr_percore_p[i].finish, rr_percore_p[i].turnaround, rr_percore_p[i].wait_time);
