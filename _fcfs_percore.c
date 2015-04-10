@@ -20,11 +20,10 @@ void fcfs_percore() {
     printf("How many processes: ");
 
     // Receive user's choice
-    int num_processes, id, arrive, duration, quantum_fcfs_percore;
+    int num_processes, id, arrive, duration;
     scanf("%d", &num_processes);
 
-	printf("What is the quantum: ");
-	scanf("%d", &quantum_fcfs_percore);
+	printf("Quantum ignored.\n");
 
 	//adding to a global list of processes
 	for(i = 0; i < num_processes; i++){//ask user for info manually for now, will need to do file input at some point
@@ -84,6 +83,7 @@ void fcfs_percore() {
 						time_left -= 1;
 						printf("\tProcess %d is executing. Duration = %d remaining duration of process is %d\n.", fcfs_percore_cores[i][ticker[i]]->id, fcfs_percore_cores[i][ticker[id]]->duration, time_left);
 						if (time_left <= 0) k = time_left;
+						current_time++;
 					}
 					if (time_left <= 0) {
 						fcfs_percore_cores[i][ticker[i]]->done = true;
@@ -109,7 +109,6 @@ void fcfs_percore() {
 			}
 
 		}
-		current_time += quantum_fcfs_percore;
 	}
 }
 
