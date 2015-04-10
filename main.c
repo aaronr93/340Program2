@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
             // Call apropros function
         } else if (input == 3) {
             // rr_percore
-            rr_percore();
+            // Call apropros function
         } else if (input == 4) {
             // rr_load
             rr_load();
