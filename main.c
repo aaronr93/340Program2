@@ -2,56 +2,59 @@
 
 
 int main(int argc, char** argv) {
-
-    // 1. Display list of schedulers, have user choose
-    // 2. Call controller function for that scheduler
-    // 3. Do the stuff (and the things - don't forget about the things)
-    // 4. Output results
-
-
-    // Initialize pointers to structs for each scheduler.
-    // Contain all the heuristics for each.
-    /*fcfs_single = (Process)malloc(sizeof(Process));
-    fcfs_percore = (Process)malloc(sizeof(Process));
-    rr_percore = (Process)malloc(sizeof(Process));
-    rr_load = (Process)malloc(sizeof(Process));*/
-
     do {
-		printf("How many cores: ");
-		scanf("%d", &numCores);
 
-        // Display scheduler list to user
-        printf("===========================\n");
-        printf("Please choose a scheduler:\n");
-        printf("(1) FCFS (single core)\n");
-        printf("(2) FCFS (per core)\n");
-        printf("(3) Round Robin (per core)\n");
-        printf("(4) Round Robin (load)\n");
-        printf("(0) Quit\n");
-        printf("===========================\n");
+        FILE *ifp, *ofp;
+        char *mode = "r";
+        char output_filename[] = "out.txt";
 
-        // Receive user's choice
-        int input;
-        scanf("%d", &input);
+        ifp = fopen("in.txt", mode);
 
-        // Conditional structure based on user's input:
-        if (!input) {
-            printf("\nGoodbye.\n");
-            return 0;
-        } else if (input == 1) {
-            // fcfs_single
-            fcfs_single();
-        } else if (input == 2) {
-            // fcfs_percore
-            // Call apropros function
-        } else if (input == 3) {
-            // rr_percore
-            // Call apropros function
-        } else if (input == 4) {
-            // rr_load
-            // Call apropros function
-        } else {
-            printf("Invalid choice.\n");
+        if (ifp == NULL) {
+            fprintf(stderr, "Can't open input file.\n");
+            exit(1);
+        }
+
+        char* pol;
+        char eof;
+        int qua, cor, id, arr, dur;
+        int num_processes = 0;
+        Process* coll[500];
+        int i = 0;
+
+        while (fscanf(ifp, "%c", eof) != EOF) {
+
+            if (fscanf(ifp, "fcfs_single", pol) == 1 ||
+                fscanf(ifp, "fcfs_percore",pol) == 1 ||
+                fscanf(ifp, "rr_load",     pol) == 1 ||
+                fscanf(ifp, "rr_percore",  pol) == 1) {
+                // ^ gets the Policy
+                fscanf(ifp, "%d %d", &qua, &pol);   // Get quantum and cores
+            }
+
+            while (fscanf(ifp, "%d %d %d", &id, &arr, &dur) == 3) {
+                coll[i++] = process_constructor(pol, qua, cor, id, arr, dur);
+                num_processes++;
+            }
+        }
+
+        for (i = 0; i < num_processes; i++) {
+            if (strcmp(coll[i]->policy, "FCFS_SINGLE") == true) {
+                fcfs_single(&coll[i]);
+            } else if (strcmp(coll[i]->policy, "FCFS_PERCORE") == true) {
+
+            } else if (strcmp(coll[i]->policy, "RR_LOAD") == true) {
+
+            } else if (strcmp(coll[i]->policy, "RR_PERCORE") == true) {
+
+            }
+        }
+
+        ofp = fopen(output_filename, "w");
+
+        if (ofp == NULL) {
+            fprintf(stderr, "Can't open output file.\n");
+            exit(1);
         }
 
     } while (1);

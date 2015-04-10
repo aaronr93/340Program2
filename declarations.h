@@ -4,28 +4,61 @@
 #ifndef _DECLARATIONSH_
 #define _DECLARATIONSH_
 
-typedef struct {
-    int id; //id of process
-    int arrive; //arival time of process
-    int duration; //duration of process
-    int start; //the time it actually starts
-    int finish; //finish time of process
+typedef enum {FCFS_SINGLE, FCFS_PERCORE, RR_LOAD, RR_PERCORE} sched_policy;
+
+struct Process_Config {
+    char* policy;
+    int quantum;
+    int cores;      // Number of cores
+    int id;         // id of process
+    int arrive;     // Arival time of process
+    int duration;   // Duration of process
+    int start;      // The time it actually starts
+    int finish;     // Finish time of process
     int turnaround;
     int wait_time;
-    bool done; //is the process done executing?
-} Process;
+    bool done;      // Is the process done executing?
+};
 
-int numCores; //user wil input the number of cores
+typedef struct Process_Config Process;
 
+Process* process_constructor(char* pol, int qua, int cor, int id, int arr, int dur) {
+    Process* p = malloc(sizeof(Process));
+    p->policy = pol;
+    p->quantum = qua;
+    p->cores = cor;
+    p->id = id;
+    p->arrive = arr;
+    p->duration = dur;
+    p->start = 0;
+    p->finish = 0;
+    p->turnaround = 0;
+    p->wait_time = 0;
+    p->done = true;
+    return p;
+}
 
-//Process * fcfs_single;
-//Process * fcfs_percore;
-//Process * rr_percore;
-//Process * rr_load;
-//
-//void fnc_fcfs_single(Process *);
-//void fnc_fcfs_percore(Process *);
-//void fnc_rr_percore(Process *);
-//void fnc_rr_load(Process *);
+void process_destructor(Process* p) {
+    free(p->policy);
+    free(p);
+}
+
+void process_output(Process* p, int num_processes) {
+    int i;          // Iterator
+    int sum_t = 0;  // Sum of turnaround times, used for avg
+    int sum_w = 0;  // Sum of wait times, used for average
+    for (i = 0; i < num_processes; i++) {
+		printf("\nID = %d\t\tSTART = %d\t\tEND = %d\t\tTURNAROUND = %d\t\tWAIT = %d\n",
+            p[i].id,
+            p[i].start,
+            p[i].finish,
+            p[i].finish - p[i].arrive,
+            p[i].start - p[i].arrive
+        );
+        sum_t += p[i].finish - p[i].arrive;     // Accrue turnaround
+        sum_w += p[i].start - p[i].arrive;      // Accrue wait
+	}
+    printf("\nAVG TURNAROUND = %d\t\tAVG WAIT = \n\n", sum_t / num_processes, sum_w / num_processes);
+}
 
 #endif
