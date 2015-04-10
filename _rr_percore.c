@@ -28,15 +28,6 @@ void rr_percore() {
 		}
 	}
 
-	// ask user how many processes
-	//printf("How many processes: ");
-
-	// Receive user's choice
-	/*int num_processes, id, arrive, duration, quantum_rr_percore;
-	scanf("%d", &num_processes);*/
-
-	/*printf("What is the quantum: ");
-	scanf("%d", &quantum_rr_percore);*/
 	int quantum_rr_percore = quantum;
 	if(quantum < 1){
 		printf("Error. Invalid quantum size.\n");
@@ -45,25 +36,14 @@ void rr_percore() {
 
 	//adding to a global list of processes
 	for (i = 0; i < num_processes; i++) {//ask user for info manually for now, will need to do file input at some point
-		/*printf("Process %d id: ", i);
-		scanf("%d", &id);*/
 		rr_percore_p[i].id = coll[i]->id;
-		/*printf("Process %d arrive time: ", i);
-		scanf("%d", &arrive);*/
 		rr_percore_p[i].arrive = coll[i]->arrive;
-		/*printf("Process %d duration: ", i);
-		scanf("%d", &duration);*/
 		rr_percore_p[i].duration = coll[i]->duration;
 		rr_percore_p[i].done = false;
 		rr_percore_p[i].start = -1;
 		rr_percore_p[i].running = false;
 		bursts[i] = coll[i]->duration;
-
 	}
-
-
-
-
 
 	for (i = 0; i < num_processes; i++) {
 		int rand_core = rand() % numCores;
@@ -110,7 +90,7 @@ void rr_percore() {
 						printf(" process %d tick. tempq = %d remaining duration of process is %d\n.", rr_percore_cores[i][ticker[i]]->id, tempq, rr_percore_cores[i][ticker[i]]->duration);
 						if(tempq <= 0) k=tempq;
 					}
-					if(rr_percore_cores[i][ticker[i]]->duration <= 0){
+					if (rr_percore_cores[i][ticker[i]]->duration <= 0){
 						rr_percore_cores[i][ticker[i]]->done = true;
 						rr_percore_cores[i][ticker[i]]->finish = current_time + (quantum_rr_percore - tempq);
 						printf("Finished executing process %d\n", rr_percore_cores[i][ticker[i]]->id);

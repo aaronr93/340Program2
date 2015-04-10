@@ -27,15 +27,6 @@ void rr_load(){
 		}
 	}
 
-	// ask user how many processes
-	//printf("How many processes: ");
-
-	// Receive user's choice
-	/*int num_processes, id, arrive, duration, quantum_rr_percore;
-	scanf("%d", &num_processes);*/
-
-	/*printf("What is the quantum: ");
-	scanf("%d", &quantum_rr_percore);*/
 	int quantum_rr_load = quantum;
 	if(quantum < 1){
 		printf("Error. Invalid quantum size.\n");
@@ -43,25 +34,18 @@ void rr_load(){
 	}
 	//adding to a global list of processes
 	for (i = 0; i < num_processes; i++) {//ask user for info manually for now, will need to do file input at some point
-		/*printf("Process %d id: ", i);
-		scanf("%d", &id);*/
 		rr_load_p[i].id = coll[i]->id;
-		/*printf("Process %d arrive time: ", i);
-		scanf("%d", &arrive);*/
 		rr_load_p[i].arrive = coll[i]->arrive;
-		/*printf("Process %d duration: ", i);
-		scanf("%d", &duration);*/
 		rr_load_p[i].duration = coll[i]->duration;
 		rr_load_p[i].done = false;
 		rr_load_p[i].start = -1;
 		rr_load_p[i].running = false;
 		bursts[i] = coll[i]->duration;
-
 	}
 
 	//now distribute the processes to the cores, evenly at first since the empty cores will automatically have the lightest load
 
-	for(i = 0; i <numCores; i++){
+	for(i = 0; i < numCores; i++){
 		rr_load_cores[i][0] = &rr_load_p[i];
 		printf("Added process %d to core %d\n", rr_load_cores[i][0]->id, i);
 	}

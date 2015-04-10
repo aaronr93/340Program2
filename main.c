@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 	else if (strcmp(pol, "fcfs-percore") == 0) fcfs_percore();
 	else if (strcmp(pol, "rr-percore") == 0)   rr_percore();
 	else if (strcmp(pol, "rr-load") == 0)      rr_load();
-	else exit(1);
+	else printf("Invalid entry.\n");
 
     return 0;
 }

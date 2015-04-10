@@ -15,27 +15,11 @@ void fcfs_percore() {
 		}
 	}
 
-
-	// ask user how many processes
-    printf("How many processes: ");
-
-    // Receive user's choice
-    int num_processes, id, arrive, duration;
-    scanf("%d", &num_processes);
-
-	printf("Quantum ignored.\n");
-
 	//adding to a global list of processes
 	for(i = 0; i < num_processes; i++){//ask user for info manually for now, will need to do file input at some point
-		printf("Process %d id: ", i);
-		scanf("%d", &id);
-		fcfs_percore_p[i].id = id;
-		printf("Process %d arrive time: ", i);
-		scanf("%d", &arrive);
-		fcfs_percore_p[i].arrive = arrive;
-		printf("Process %d duration: ", i);
-		scanf("%d", &duration);
-		fcfs_percore_p[i].duration = duration;
+		fcfs_percore_p[i].id = coll[i]->id;
+		fcfs_percore_p[i].arrive = coll[i]->arrive;
+		fcfs_percore_p[i].duration = coll[i]->duration;
 		fcfs_percore_p[i].done = false;
 		fcfs_percore_p[i].start = -1;
 		fcfs_percore_p[i].running = false;
@@ -63,16 +47,20 @@ void fcfs_percore() {
 		ticker[i] = 0;
 	}
 	while (still_running) {
+		printf("\twhile (still_running) loop is running.\n");
 		still_running = false;
 		for (i = 0; i < numCores; i++) {
+			printf("\tfor (i = 0; i < numCores; i++) loop is running.\n");
 
 			int temp = ticker[i];
 			int time_left = fcfs_percore_cores[i][ticker[i]]->duration;
 			while (true) {
+				printf("\twhile(true) loop is running.\n");
 
 
 				if (fcfs_percore_cores[i][ticker[i]] != NULL && !fcfs_percore_cores[i][ticker[i]]->done && fcfs_percore_cores[i][ticker[i]]->arrive <= current_time)//if there is a process at the current ticker position
 				{
+					printf("\tif (a bunch of shit) entered.\n");
 					if (fcfs_percore_cores[i][ticker[i]]->start == -1) {
 						printf("process %d has started executing\n", fcfs_percore_cores[i][ticker[i]]->id);
 						fcfs_percore_cores[i][ticker[i]]->start = current_time;
