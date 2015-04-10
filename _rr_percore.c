@@ -53,10 +53,11 @@ void rr_percore() {
 
 		//now add the process to the end of the random processor
 		int k = 0;
-		while (true) {
+		/*while (true) {
 			if (rr_percore_cores[rand_core][k] == NULL) break;
 			else k++;
-		}
+		}*/
+		while (!rr_percore_cores[rand_core][k++]);
 		rr_percore_cores[rand_core][k] = &rr_percore_p[i];
 		printf("k = %d. Added process %d to core %d\n", k, rr_percore_cores[rand_core][k]->id, rand_core);
 	}
@@ -89,7 +90,7 @@ void rr_percore() {
 						rr_percore_cores[i][ticker[i]]->duration -= 1;
 						tempq -= 1;
 						printf(" process %d tick. tempq = %d remaining duration of process is %d\n.", rr_percore_cores[i][ticker[i]]->id, tempq, rr_percore_cores[i][ticker[i]]->duration);
-						if (tempq <= 0) k = tempq;
+						if (tempq <= 0) break;
 					}
 					if (rr_percore_cores[i][ticker[i]]->duration <= 0) {
 						rr_percore_cores[i][ticker[i]]->done = true;
