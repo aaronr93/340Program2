@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
             exit(1);
         }
 
+<<<<<<< HEAD
         char* pol;
         char eof;
         int qua, cor, id, arr, dur;
@@ -55,6 +56,44 @@ int main(int argc, char** argv) {
         if (ofp == NULL) {
             fprintf(stderr, "Can't open output file.\n");
             exit(1);
+=======
+    do {
+		printf("How many cores: ");
+		scanf("%d", &numCores);
+
+        // Display scheduler list to user
+        printf("===========================\n");
+        printf("Please choose a scheduler:\n");
+        printf("(1) FCFS (single core)\n");
+        printf("(2) FCFS (per core)\n");
+        printf("(3) Round Robin (per core)\n");
+        printf("(4) Round Robin (load)\n");
+        printf("(0) Quit\n");
+        printf("===========================\n");
+
+        // Receive user's choice
+        int input;
+        scanf("%d", &input);
+
+        // Conditional structure based on user's input:
+        if (!input) {
+            printf("\nGoodbye.\n");
+            return 0;
+        } else if (input == 1) {
+            // fcfs_single
+            fcfs_single();
+        } else if (input == 2) {
+            // fcfs_percore
+            // Call apropros function
+        } else if (input == 3) {
+            // rr_percore
+            // Call apropros function
+        } else if (input == 4) {
+            // rr_load
+            rr_load();
+        } else {
+            printf("Invalid choice.\n");
+>>>>>>> 9c8ad9fa8eb6ec19834aec1143bbc3775da975a2
         }
 
     } while (1);
