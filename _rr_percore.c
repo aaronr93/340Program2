@@ -18,7 +18,7 @@ void rr_percore() {
 	int i;
 	Process rr_percore_p[100];
 	Process * rr_percore_cores[20][50]; //up to 20 cores with up to 50 processes each
-	int bursts[500];
+	int bursts[100];
 
 	//make the entire array null
 	for (i = 0; i < 20; i++) {
