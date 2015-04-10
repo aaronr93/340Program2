@@ -1,3 +1,12 @@
+/*
+  Author:  Zach Nafziger and Aaron Rosenberger
+  Course:  COMP 340, Operating Systems
+  Date:    10 March 2015
+  Description:   This file implements the main driver
+  Compile with:  make all
+  Run with:      ./program2 input.txt
+
+*/
 #include "declarations.h"
 
 void process_output(Process* p, int num_processes) {
@@ -49,7 +58,7 @@ int main(int argc, char** argv) {
 		
 		char * pol;
 
-        ifp = fopen("in.txt", mode);
+        ifp = fopen(argv[1], mode);
 
         if (ifp == NULL) {
             fprintf(stderr, "Can't open input file.\n");

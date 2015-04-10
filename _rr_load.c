@@ -1,3 +1,14 @@
+/*
+  Author:  Zach Nafziger and Aaron Rosenberger
+  Course:  COMP 340, Operating Systems
+  Date:    10 March 2015
+  Description:   This file implements the
+                 functionality required for
+                 Project 2, rr-load scheduler.
+  Compile with:  make all
+  Run with:      ./program2 input.txt
+
+*/
 #include "declarations.h"
 #ifndef _RR_LOAD_
 #define _RR_LOAD_
@@ -14,29 +25,32 @@ void rr_load(){
 			rr_load_cores[i][j] = NULL;
 		}
 	}
-
-	// ask user how many processes
-    printf("How many processes: ");
-
-    // Receive user's choice
-    int num_processes, id, arrive, duration, quantum_rr_load;
-    scanf("%d", &num_processes);
-
-	 printf("What is the quantum: ");
-	 scanf("%d", &quantum_rr_load);
-
 	
+	// ask user how many processes
+	//printf("How many processes: ");
+
+	// Receive user's choice
+	/*int num_processes, id, arrive, duration, quantum_rr_percore;
+	scanf("%d", &num_processes);*/
+
+	/*printf("What is the quantum: ");
+	scanf("%d", &quantum_rr_percore);*/
+	int quantum_rr_load = quantum;
+	if(quantum < 1){
+		printf("Error. Invalid quantum size.\n");
+		exit(1);
+	}
 	//adding to a global list of processes
-	for(i = 0; i < num_processes; i++){//ask user for info manually for now, will need to do file input at some point
-		printf("Process %d id: ", i);
-		scanf("%d", &id);
-		rr_load_p[i].id = id;
-		printf("Process %d arrive time: ", i);
-		scanf("%d", &arrive);
-		rr_load_p[i].arrive = arrive;
-		printf("Process %d duration: ", i);
-		scanf("%d", &duration);
-		rr_load_p[i].duration = duration;
+	for (i = 0; i < num_processes; i++) {//ask user for info manually for now, will need to do file input at some point
+		/*printf("Process %d id: ", i);
+		scanf("%d", &id);*/
+		rr_load_p[i].id = coll[i]->id;
+		/*printf("Process %d arrive time: ", i);
+		scanf("%d", &arrive);*/
+		rr_load_p[i].arrive = coll[i]->arrive;
+		/*printf("Process %d duration: ", i);
+		scanf("%d", &duration);*/
+		rr_load_p[i].duration = coll[i]->duration;
 		rr_load_p[i].done = false;
 		rr_load_p[i].start = -1;
 		rr_load_p[i].running = false;
@@ -147,6 +161,9 @@ void rr_load(){
 	float avg_wait;
 	avg_turnaround = 0;
 	avg_wait = 0;
+
+	FILE * ofp= fopen("out.txt", "w");
+
 	//this way it's outputting by the order the processes are given
 	for(i = 0; i < num_processes; i++)
 	{
@@ -155,10 +172,12 @@ void rr_load(){
 		avg_turnaround = avg_turnaround + rr_load_p[i].turnaround;
 		avg_wait = avg_wait + rr_load_p[i].wait_time;
 		printf("%d\t%d\t%d\t%d\t%d\n", rr_load_p[i].id, rr_load_p[i].start, rr_load_p[i].finish, rr_load_p[i].turnaround,rr_load_p[i].wait_time);
+		fprintf(ofp, "%d\t%d\t%d\t%d\t%d\n", rr_load_p[i].id, rr_load_p[i].start, rr_load_p[i].finish, rr_load_p[i].turnaround,rr_load_p[i].wait_time);
 	}
 	avg_turnaround = avg_turnaround/num_processes;
 	avg_wait = avg_wait/num_processes;
 	printf("%f\t%f\n", avg_turnaround, avg_wait);
+	fprintf(ofp, "%f\t%f\n", avg_turnaround, avg_wait);
 
 
 }
