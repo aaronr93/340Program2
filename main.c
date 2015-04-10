@@ -45,6 +45,9 @@ int main(int argc, char** argv) {
         FILE *ifp, *ofp;
         char *mode = "r";
         char output_filename[] = "out.txt";
+		char line[50];
+		
+		char * pol;
 
         ifp = fopen("in.txt", mode);
 
@@ -53,30 +56,38 @@ int main(int argc, char** argv) {
             exit(1);
         }
 
-        char* pol;
+        
         char eof;
         int qua, cor, id, arr, dur;
-        int num_processes = 0;
+        num_processes = 0;
         
         int i = 0;
+		fgets(line, 50, ifp);
+		char * templine = strdup(line);
+		pol = strtok(templine, " ");
+		char * intString;
+		intString = strtok(NULL, " ");
+		quantum = atoi(intString);
+		intString = strtok(NULL, " ");
+		numCores = atoi(intString);
+		printf("policy: %s\nquantum: %d\ncores: %d\n", pol, quantum, numCores);
 
-        while (fscanf(ifp, "%c", eof) != EOF) {
+        while (fgets(line, 50, ifp) != NULL) {
+			templine = strdup(line);
+			intString = strtok(templine, " ");
+			id = atoi(intString);
+			intString = strtok(NULL, " ");
+			arr = atoi(intString);
+			intString = strtok(NULL, " ");
+			dur = atoi(intString);
 
-            if (fscanf(ifp, "fcfs_single", pol) == 1 ||
-                fscanf(ifp, "fcfs_percore",pol) == 1 ||
-                fscanf(ifp, "rr_load",     pol) == 1 ||
-                fscanf(ifp, "rr_percore",  pol) == 1) {
-                // ^ gets the Policy
-                fscanf(ifp, "%d %d", &qua, &pol);   // Get quantum and cores
-            }
-
-            while (fscanf(ifp, "%d %d %d", &id, &arr, &dur) == 3) {
-                coll[i++] = process_constructor(pol, qua, cor, id, arr, dur);
-                num_processes++;
-            }
+            coll[i++] = process_constructor(pol, quantum, numCores, id, arr, dur);
+			
+            num_processes++;
+			printf("%d\t%d\t%d\n", coll[num_processes - 1]->id, coll[num_processes - 1]->arrive, coll[num_processes - 1]->duration);
         }
 
-        for (i = 0; i < num_processes; i++) {
+        /*for (i = 0; i < num_processes; i++) {
             if (strcmp(coll[i]->policy, "FCFS_SINGLE") == true) {
                 fcfs_single(&coll[i]);
             } else if (strcmp(coll[i]->policy, "FCFS_PERCORE") == true) {
@@ -86,32 +97,37 @@ int main(int argc, char** argv) {
             } else if (strcmp(coll[i]->policy, "RR_PERCORE") == true) {
 
             }
-        }
+        }*/
 
-        ofp = fopen(output_filename, "w");
+        /*ofp = fopen(output_filename, "w");
 
         if (ofp == NULL) {
             fprintf(stderr, "Can't open output file.\n");
             exit(1);
-		}
+		}*/
 
     
-		printf("How many cores: ");
-		scanf("%d", &numCores);
+		
 
         // Display scheduler list to user
-        printf("===========================\n");
+        /*printf("===========================\n");
         printf("Please choose a scheduler:\n");
         printf("(1) FCFS (single core)\n");
         printf("(2) FCFS (per core)\n");
         printf("(3) Round Robin (per core)\n");
         printf("(4) Round Robin (load)\n");
         printf("(0) Quit\n");
-        printf("===========================\n");
+        printf("===========================\n");*/
 
         // Receive user's choice
         int input;
-        scanf("%d", &input);
+        /*scanf("%d", &input);*/
+
+		if(strcmp(pol, "fcfs-single") == 0) input = 1;
+		else if (strcmp(pol, "fcfs-percore") == 0) input = 2;
+		else if (strcmp(pol, "rr-percore") == 0) input = 3;
+		else if (strcmp(pol, "rr-load") == 0) input = 4;
+		else input = 0;
 
         // Conditional structure based on user's input:
         if (!input) {
@@ -130,7 +146,8 @@ int main(int argc, char** argv) {
             // rr_load
             rr_load();
         } else {
-            printf("Invalid choice.\n");
+            printf("Invalid scheduler.\n");
+			exit(1);
         }
 
     return 0;

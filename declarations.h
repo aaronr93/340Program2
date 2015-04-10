@@ -28,6 +28,8 @@ typedef struct Process_Config Process;
 Process* coll[500];
 
 int numCores;
+int quantum;
+int num_processes;
 
 
 #endif
