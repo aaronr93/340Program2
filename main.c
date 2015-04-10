@@ -18,63 +18,84 @@ void process_output(Process* p, int num_processes) {
     printf("\nAVG TURNAROUND = %d\t\tAVG WAIT = \n\n", sum_t / num_processes, sum_w / num_processes);
 }
 
+Process* process_constructor(char* pol, int qua, int cor, int id, int arr, int dur) {
+    Process* p = malloc(sizeof(Process));
+    p->policy = pol;
+    p->quantum = qua;
+    p->cores = cor;
+    p->id = id;
+    p->arrive = arr;
+    p->duration = dur;
+    p->start = 0;
+    p->finish = 0;
+    p->turnaround = 0;
+    p->wait_time = 0;
+    p->done = true;
+    return p;
+}
+
+void process_destructor(Process* p) {
+    free(p->policy);
+    free(p);
+}
+
 int main(int argc, char** argv) {
     /*do {*/
 
-  //      FILE *ifp, *ofp;
-  //      char *mode = "r";
-  //      char output_filename[] = "out.txt";
+        FILE *ifp, *ofp;
+        char *mode = "r";
+        char output_filename[] = "out.txt";
 
-  //      ifp = fopen("in.txt", mode);
+        ifp = fopen("in.txt", mode);
 
-  //      if (ifp == NULL) {
-  //          fprintf(stderr, "Can't open input file.\n");
-  //          exit(1);
-  //      }
+        if (ifp == NULL) {
+            fprintf(stderr, "Can't open input file.\n");
+            exit(1);
+        }
 
-  //      char* pol;
-  //      char eof;
-  //      int qua, cor, id, arr, dur;
-  //      int num_processes = 0;
-  //      Process* coll[500];
-  //      int i = 0;
+        char* pol;
+        char eof;
+        int qua, cor, id, arr, dur;
+        int num_processes = 0;
+        
+        int i = 0;
 
-  //      while (fscanf(ifp, "%c", eof) != EOF) {
+        while (fscanf(ifp, "%c", eof) != EOF) {
 
-  //          if (fscanf(ifp, "fcfs_single", pol) == 1 ||
-  //              fscanf(ifp, "fcfs_percore",pol) == 1 ||
-  //              fscanf(ifp, "rr_load",     pol) == 1 ||
-  //              fscanf(ifp, "rr_percore",  pol) == 1) {
-  //              // ^ gets the Policy
-  //              fscanf(ifp, "%d %d", &qua, &pol);   // Get quantum and cores
-  //          }
+            if (fscanf(ifp, "fcfs_single", pol) == 1 ||
+                fscanf(ifp, "fcfs_percore",pol) == 1 ||
+                fscanf(ifp, "rr_load",     pol) == 1 ||
+                fscanf(ifp, "rr_percore",  pol) == 1) {
+                // ^ gets the Policy
+                fscanf(ifp, "%d %d", &qua, &pol);   // Get quantum and cores
+            }
 
-  //          while (fscanf(ifp, "%d %d %d", &id, &arr, &dur) == 3) {
-  //              coll[i++] = process_constructor(pol, qua, cor, id, arr, dur);
-  //              num_processes++;
-  //          }
-  //      }
+            while (fscanf(ifp, "%d %d %d", &id, &arr, &dur) == 3) {
+                coll[i++] = process_constructor(pol, qua, cor, id, arr, dur);
+                num_processes++;
+            }
+        }
 
-  //      for (i = 0; i < num_processes; i++) {
-  //          if (strcmp(coll[i]->policy, "FCFS_SINGLE") == true) {
-  //              fcfs_single(&coll[i]);
-  //          } else if (strcmp(coll[i]->policy, "FCFS_PERCORE") == true) {
+        for (i = 0; i < num_processes; i++) {
+            if (strcmp(coll[i]->policy, "FCFS_SINGLE") == true) {
+                fcfs_single(&coll[i]);
+            } else if (strcmp(coll[i]->policy, "FCFS_PERCORE") == true) {
 
-  //          } else if (strcmp(coll[i]->policy, "RR_LOAD") == true) {
+            } else if (strcmp(coll[i]->policy, "RR_LOAD") == true) {
 
-  //          } else if (strcmp(coll[i]->policy, "RR_PERCORE") == true) {
+            } else if (strcmp(coll[i]->policy, "RR_PERCORE") == true) {
 
-  //          }
-  //      }
+            }
+        }
 
-  //      ofp = fopen(output_filename, "w");
+        ofp = fopen(output_filename, "w");
 
-  //      if (ofp == NULL) {
-  //          fprintf(stderr, "Can't open output file.\n");
-  //          exit(1);
-		//}
+        if (ofp == NULL) {
+            fprintf(stderr, "Can't open output file.\n");
+            exit(1);
+		}
 
-    do {
+    
 		printf("How many cores: ");
 		scanf("%d", &numCores);
 
@@ -111,8 +132,6 @@ int main(int argc, char** argv) {
         } else {
             printf("Invalid choice.\n");
         }
-
-    } while(1);
 
     return 0;
 }
