@@ -5,7 +5,7 @@
 void fcfs_percore() {
 	srandom((unsigned)time(NULL));
 	int i;
-	Process fcfs_percore_p[500];
+	Process fcfs_percore_p[100];
 	Process* fcfs_percore_cores[20][50];
 
 	for (i = 0; i < 20; i++) {
@@ -107,7 +107,7 @@ void fcfs_percore() {
 			}
 
 		}
-		
+
 	}
 }
 

@@ -15,7 +15,7 @@
 
 void rr_load(){
 	int i;
-	Process rr_load_p[500];
+	Process rr_load_p[100];
 	Process * rr_load_cores[20][50]; //up to 20 cores with up to 50 processes each
 
 	//make the entire array null
@@ -25,7 +25,7 @@ void rr_load(){
 			rr_load_cores[i][j] = NULL;
 		}
 	}
-	
+
 	// ask user how many processes
 	//printf("How many processes: ");
 
@@ -109,12 +109,12 @@ void rr_load(){
 		still_running = false;
 		for(i = 0; i <numCores; i++)
 		{
-			
+
 			int temp = ticker[i];
 			int tempq = quantum_rr_load;
 			while(true)
 			{
-				
+
 
 				if(rr_load_cores[i][ticker[i]] != NULL && !rr_load_cores[i][ticker[i]]->done && rr_load_cores[i][ticker[i]]->arrive <= current_time)//if there is a process at the current ticker position
 				{
@@ -136,7 +136,7 @@ void rr_load(){
 						printf("Finished executing process %d\n", rr_load_cores[i][ticker[i]]->id);
 					}
 				}
-				
+
 				ticker[i]++;
 				printf("ticker %d is now at %d\n", i, ticker[i]);
 				if(rr_load_cores[i][ticker[i]] == NULL){
@@ -152,7 +152,7 @@ void rr_load(){
 
 				if(tempq <= 0) break;
 			}
-			
+
 		}
 		current_time += quantum_rr_load;
 	}

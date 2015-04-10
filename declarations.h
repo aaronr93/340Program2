@@ -34,7 +34,7 @@ struct Process_Config {
 
 typedef struct Process_Config Process;
 
-Process* coll[500];
+Process* coll[100];
 
 int numCores;
 int quantum;

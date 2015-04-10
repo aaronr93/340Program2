@@ -6,7 +6,7 @@
 Process fcfs_single_p;
 
 void fcfs_single(){
-	Process fcfs_single_p[500];
+	Process fcfs_single_p[100];
 	Process * fcfs_single_cores[20];
 	// ask user how many processes
     printf("How many processes: ");
@@ -34,7 +34,7 @@ void fcfs_single(){
 
 	}
 
-	
+
 	for(i = 0; i < numCores; i++){
 
 		int j;
@@ -67,7 +67,7 @@ void fcfs_single(){
 				int earliest_id = 0;
 				for(j = 0; j < num_processes; j++){
 					if(fcfs_single_p[j].done == false && fcfs_single_p[j].running == false && fcfs_single_p[j].arrive <= earliest){
-						
+
 						still_running = true;
 						earliest = fcfs_single_p[j].arrive;
 						earliest_id = j;
@@ -90,8 +90,8 @@ void fcfs_single(){
 						fcfs_single_cores[i]->finish = current_time + 1;
 					}
 				}
-			} 
-			
+			}
+
 		}
 		current_time++;
 	} while(still_running);
