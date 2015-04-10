@@ -23,7 +23,7 @@ struct Process_Config {
 
 typedef struct Process_Config Process;
 
-Process* process_constructor(char* pol, int qua, int cor, int id, int arr, int dur) {
+/*Process* process_constructor(char* pol, int qua, int cor, int id, int arr, int dur) {
     Process* p = malloc(sizeof(Process));
     p->policy = pol;
     p->quantum = qua;
@@ -42,24 +42,8 @@ Process* process_constructor(char* pol, int qua, int cor, int id, int arr, int d
 void process_destructor(Process* p) {
     free(p->policy);
     free(p);
-}
+}*/
 
-void process_output(Process* p, int num_processes) {
-    int i;          // Iterator
-    int sum_t = 0;  // Sum of turnaround times, used for avg
-    int sum_w = 0;  // Sum of wait times, used for average
-    for (i = 0; i < num_processes; i++) {
-		printf("\nID = %d\t\tSTART = %d\t\tEND = %d\t\tTURNAROUND = %d\t\tWAIT = %d\n",
-            p[i].id,
-            p[i].start,
-            p[i].finish,
-            p[i].finish - p[i].arrive,
-            p[i].start - p[i].arrive
-        );
-        sum_t += p[i].finish - p[i].arrive;     // Accrue turnaround
-        sum_w += p[i].start - p[i].arrive;      // Accrue wait
-	}
-    printf("\nAVG TURNAROUND = %d\t\tAVG WAIT = \n\n", sum_t / num_processes, sum_w / num_processes);
-}
+int numCores;
 
 #endif

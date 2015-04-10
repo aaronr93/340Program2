@@ -1,5 +1,22 @@
 #include "declarations.h"
 
+void process_output(Process* p, int num_processes) {
+    int i;          // Iterator
+    int sum_t = 0;  // Sum of turnaround times, used for avg
+    int sum_w = 0;  // Sum of wait times, used for average
+    for (i = 0; i < num_processes; i++) {
+		printf("\nID = %d\t\tSTART = %d\t\tEND = %d\t\tTURNAROUND = %d\t\tWAIT = %d\n",
+            p[i].id,
+            p[i].start,
+            p[i].finish,
+            p[i].finish - p[i].arrive,
+            p[i].start - p[i].arrive
+        );
+        sum_t += p[i].finish - p[i].arrive;     // Accrue turnaround
+        sum_w += p[i].start - p[i].arrive;      // Accrue wait
+	}
+    printf("\nAVG TURNAROUND = %d\t\tAVG WAIT = \n\n", sum_t / num_processes, sum_w / num_processes);
+}
 
 int main(int argc, char** argv) {
     /*do {*/
