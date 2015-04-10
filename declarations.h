@@ -17,16 +17,11 @@ struct Process_Config {
     int finish;     // Finish time of process
     int turnaround;
     int wait_time;
-<<<<<<< HEAD
     bool done;      // Is the process done executing?
+    bool running;   // Is the process currently running?
 };
 
 typedef struct Process_Config Process;
-=======
-    bool done; //is the process done executing?
-	bool running; //is the process currently running?
-} Process;
->>>>>>> 9c8ad9fa8eb6ec19834aec1143bbc3775da975a2
 
 Process* process_constructor(char* pol, int qua, int cor, int id, int arr, int dur) {
     Process* p = malloc(sizeof(Process));
