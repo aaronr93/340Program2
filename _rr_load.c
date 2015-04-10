@@ -113,16 +113,16 @@ void rr_load(){
 					for(k = 0; k < tempq; k++){
 						rr_load_cores[i][ticker[i]]->duration -= 1;
 						tempq -=1;
-						if(tempq <= 0) break;
+						printf(" process %d tick. tempq = %d remaining duration of process is %d\n.", rr_load_cores[i][ticker[i]]->id, tempq, rr_load_cores[i][ticker[i]]->duration);
+						if(tempq <= 0) k=tempq;
 					}
 					if(rr_load_cores[i][ticker[i]]->duration <= 0){
 						rr_load_cores[i][ticker[i]]->done = true;
 						rr_load_cores[i][ticker[i]]->finish = current_time + (quantum_rr_load - tempq);
 						printf("Finished executing process %d\n", rr_load_cores[i][ticker[i]]->id);
-
 					}
 				}
-				if(tempq <= 0) break;
+				
 				ticker[i]++;
 				printf("ticker %d is now at %d\n", i, ticker[i]);
 				if(rr_load_cores[i][ticker[i]] == NULL){
@@ -135,6 +135,8 @@ void rr_load(){
 					printf("Core %d is done\n", i);
 					break;
 				}
+
+				if(tempq <= 0) break;
 			}
 			
 		}
