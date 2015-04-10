@@ -1,3 +1,12 @@
+/*
+  Author:  Zach Nafziger and Aaron Rosenberger
+  Course:  COMP 340, Operating Systems
+  Date:    10 March 2015
+  Description:   This file contains declarations for program 2
+  Compile with:  make all
+  Run with:      ./program2 input.txt
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
