@@ -1,3 +1,14 @@
+/*
+  Author:  Zach Nafziger and Aaron Rosenberger
+  Course:  COMP 340, Operating Systems
+  Date:    10 March 2015
+  Description:   This file implements the
+                 functionality required for
+                 Project 2, fcfs-percore scheduler.
+  Compile with:  make all
+  Run with:      ./program2 input.txt
+
+*/
 #include "declarations.h"
 #ifndef _FCFS_PERCORE_
 #define _FCFS_PERCORE_
