@@ -101,10 +101,9 @@ int main(int argc, char** argv) {
             fcfs_single();
         } else if (input == 2) {
             // fcfs_percore
-            // Call apropros function
+            fcfs_percore();
         } else if (input == 3) {
             // rr_percore
-            // Call apropros function
 			rr_percore();
         } else if (input == 4) {
             // rr_load
