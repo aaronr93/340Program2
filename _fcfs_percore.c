@@ -5,24 +5,20 @@
 void fcfs_percore() {
 	srandom((unsigned)time(NULL));
 	int i;
-	Process fcfs_percore_p[100];
-	Process* fcfs_percore_cores[20][50];
-
+	//Process fcfs_percore_p[100];
+	Process* cores[20][50];
 	for (i = 0; i < 20; i++) {
 		int j;
 		for (j = 0; j < 50; j++) {
-			fcfs_percore_cores[i][j] = NULL;
+			cores[i][j] = NULL;
 		}
 	}
 
 	//adding to a global list of processes
-	for(i = 0; i < num_processes; i++){//ask user for info manually for now, will need to do file input at some point
-		fcfs_percore_p[i].id = coll[i]->id;
-		fcfs_percore_p[i].arrive = coll[i]->arrive;
-		fcfs_percore_p[i].duration = coll[i]->duration;
-		fcfs_percore_p[i].done = false;
-		fcfs_percore_p[i].start = -1;
-		fcfs_percore_p[i].running = false;
+	for (i = 0; i < num_processes; i++) {
+		coll[i]->done = false;
+		coll[i]->start = -1;
+		coll[i]->running = false;
 	}
 
 	for (i = 0; i < num_processes; i++) {
@@ -31,63 +27,68 @@ void fcfs_percore() {
 		//now add the process to the end of the random processor
 		int k = 0;
 		while (true) {
-			if (fcfs_percore_cores[rand_core][k] == NULL) break;
+			if (cores[rand_core][k] == NULL) break;
 			else k++;
 		}
-		fcfs_percore_cores[rand_core][k] = &fcfs_percore_p[i];
-		printf("k = %d. Added process %d to core %d\n", k, fcfs_percore_cores[rand_core][k]->id, rand_core);
+		cores[rand_core][k] = coll[i];
+		printf("k = %d. Added process %d to core %d\n", k, cores[rand_core][k]->id, rand_core);
 	}
 
 	// Sim time.
+	int k;		// Iterator
+	int current_time = 0;	// Time counter
 
-	int current_time = 0;
 	bool still_running = true;
-	int ticker[20];
+
+	int t[20];
+	// Init to 0
 	for (i = 0; i < 20; i++) {
-		ticker[i] = 0;
+		t[i] = 0;
 	}
-	while (still_running) {
-		printf("\twhile (still_running) loop is running.\n");
+
+	while (still_running)
+	{
 		still_running = false;
-		for (i = 0; i < numCores; i++) {
-			printf("\tfor (i = 0; i < numCores; i++) loop is running.\n");
 
-			int temp = ticker[i];
-			int time_left = fcfs_percore_cores[i][ticker[i]]->duration;
-			while (true) {
-				printf("\twhile(true) loop is running.\n");
+		for (i = 0; i < numCores; i++)
+		{
 
+			int temp = t[i];
+			int time_left = cores[i][t[i]]->duration;		// Burst time countdown initiates.
 
-				if (fcfs_percore_cores[i][ticker[i]] != NULL && !fcfs_percore_cores[i][ticker[i]]->done && fcfs_percore_cores[i][ticker[i]]->arrive <= current_time)//if there is a process at the current ticker position
+			while (true)
+			{
+
+				if (cores[i][t[i]] != NULL && !cores[i][t[i]]->done && cores[i][t[i]]->arrive <= current_time)//if there is a process at the current ticker (t) position
 				{
-					printf("\tif (a bunch of shit) entered.\n");
-					if (fcfs_percore_cores[i][ticker[i]]->start == -1) {
-						printf("process %d has started executing\n", fcfs_percore_cores[i][ticker[i]]->id);
-						fcfs_percore_cores[i][ticker[i]]->start = current_time;
+
+					// Set as Ready to Start Processing
+					if (cores[i][t[i]]->start == -1) {
+						cores[i][t[i]]->start = current_time;
 					}
+
 					still_running = true;
-					int k;
+
 					for (k = 0; k < time_left; k++) {
-						time_left -= 1;
-						printf("\tProcess %d is executing. Duration = %d remaining duration of process is %d\n.", fcfs_percore_cores[i][ticker[i]]->id, fcfs_percore_cores[i][ticker[id]]->duration, time_left);
-						if (time_left <= 0) break;
+						// EXECUTION
+						time_left--;		// Decrement time by 1 unit
+						printf("\tProcess %d executing: time left = %d\n", cores[i][t[i]]->id, time_left);
+						// If it's all done:
+						if (time_left <= 0) {
+							cores[i][t[i]]->done = true;
+							cores[i][t[i]]->finish = cores[i][t[i]]->start + cores[i][t[i]]->duration;
+							printf("Finished executing process %d\n", cores[i][t[i]]->id);
+							break;
+						}
 					}
-					if (time_left <= 0) {
-						fcfs_percore_cores[i][ticker[i]]->done = true;
-						fcfs_percore_cores[i][ticker[i]]->finish = fcfs_percore_cores[i][ticker[i]]->start + fcfs_percore_cores[i][ticker[i]]->duration;
-						printf("Finished executing process %d\n", fcfs_percore_cores[i][ticker[i]]->id);
-					}
+
 				}
-				ticker[i]++;
-				printf("ticker %d is now at %d\n", i, ticker[i]);
-				if (fcfs_percore_cores[i][ticker[i]] == NULL) {
-					printf("The ticker on core %d is at %d so ", i, ticker[i]);
-					ticker[i] = 0;//reset the ticker if it's gone through each process
-					printf("ticker on core %d has reset\n", i);
+				t[i]++;
+				if (cores[i][t[i]] == NULL) {
+					t[i] = 0;//reset the ticker if it's gone through each process
 				}
 				//if you come around to temp again there's nothing left on this core
-				if (ticker[i] == temp) {
-					printf("Core %d is done\n", i);
+				if (t[i] == temp) {
 					break;
 				}
 
@@ -95,7 +96,7 @@ void fcfs_percore() {
 			}
 
 		}
-
+		break;
 	}
 }
 
